@@ -58,8 +58,7 @@ CommandFacility::executor()
     } else {
       bool success = completion_queue_.try_pop(fut);
       if (!success) {
-        ers::error(CommandFacilityError(ERS_HERE, "THIS IS BAD, need to understand"));
-        
+        ers::error(CommandFacilityError(ERS_HERE, "Can't get from completion queue.")); 
       } else {
         fut.wait(); // trigger execution
       }  
