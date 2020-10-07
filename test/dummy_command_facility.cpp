@@ -37,7 +37,7 @@ public:
     while (end_marker) {
       if (once) {
         // execute 10 quick commands
-        for (auto i=0; i<10; ++i) {
+        for (auto i=0; i<1000; ++i) {
           inherited::executeCommand(std::to_string(i));
         }
 
@@ -45,7 +45,7 @@ public:
         inherited::executeCommand(slowcmd);
 
         // execute again 10 quick command   
-        for (auto i=0; i<10; ++i) {
+        for (auto i=0; i<1000; ++i) {
           inherited::executeCommand(std::to_string(i));
         }
         once = false;
