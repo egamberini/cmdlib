@@ -1,3 +1,11 @@
+/**
+ * @file dummy_command_facility_.cxx Dummy command facility
+ * implementation of the CommandFacility interface
+ *
+ * This is part of the DUNE DAQ Application Framework, copyright 2020.
+ * Licensing/copyright details are in the COPYING file that you should have
+ * received with this code.
+ */
 #include "cmdlib/CommandFacility.hpp"
 #include "ers/ers.h"
 
@@ -15,8 +23,7 @@ using namespace std::chrono_literals;
 class dummyCommandFacility : public CommandFacility
 {
 public:
-  explicit dummyCommandFacility(std::string uri) : CommandFacility(uri) {
-  
+  explicit dummyCommandFacility(std::string uri) : CommandFacility(uri) { 
   }
 
   virtual ~dummyCommandFacility() { 
@@ -24,15 +31,22 @@ public:
 
   void run(std::atomic<bool>& end_marker) {
     ERS_INFO("Going for a run...");
-    std::string badcmd("asd");
-    std::string goodcmd("www");
+    std::string slowcmd("asd");
 
     bool once = true;
     while (end_marker) {
       if (once) {
-        for (unsigned int i = 0; i<10; ++i) {
+        // execute 10 quick commands
+        for (auto i=0; i<10; ++i) {
           inherited::executeCommand(std::to_string(i));
-          inherited::executeCommand(badcmd);
+        }
+
+        // execute 1 slow command
+        inherited::executeCommand(slowcmd);
+
+        // execute again 10 quick command   
+        for (auto i=0; i<10; ++i) {
+          inherited::executeCommand(std::to_string(i));
         }
         once = false;
       }
