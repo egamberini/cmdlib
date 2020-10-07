@@ -58,36 +58,36 @@ public:
   CommandFacility& operator=(CommandFacility&&) =
     delete; ///< CommandFacility is not move-assignable
 
-  // Meant to be called once from main
+  //! Meant to be called once from main
   void addCommanded(CommandedObject& commanded);
-  // Meant to be called once from main (implementation specific)
+  //! Meant to be called once from main (implementation specific)
   virtual void run(std::atomic<bool>& end_marker) = 0;
 
 
 protected:
-  // Must be implemented to handling the results of the commands
+  //! Must be implemented to handling the results of the commands
   virtual void completionCallback(const std::string& result) = 0; 
 
-  // Feed commands from the implementation.
+  //! Feed commands from the implementation.
   void executeCommand(const std::string& command);
 
 
 private:
-  // Commaned Object to run execute with received commands as parameters
+  //! Commaned Object to run execute with received commands as parameters
   mutable CommandedObject* commanded_object_ = nullptr;
 
-  // Completion queue for reqistered tasks
+  //! Completion queue for reqistered tasks
   typedef tbb::concurrent_queue<std::future<void>> CompletionQueue;
   CompletionQueue completion_queue_;
 
-  // Request callback function signature
+  //! Request callback function signature
   typedef std::function<void(const std::string&)> CommandCallback;
   CommandCallback command_callback_ = nullptr;
 
-  //  The glue between commanded and completion callback
+  //! The glue between commanded and completion callback
   void handleCommand(const std::string& command);
 
-  // Single thrad is responsible to trigger tasks 
+  //! Single thrad is responsible to trigger tasks 
   std::atomic<bool> active_;
   void executor();
   std::thread executor_;

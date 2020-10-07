@@ -20,6 +20,7 @@ typedef std::string Command;
 class CommandedObject
 {
 public:
+  //! Pure virtual execute member
   virtual void execute(Command) = 0; 
 };
 
