@@ -1,24 +1,19 @@
 #include "cmdlib/CommandFacility.hpp"
-#include <cetlib/BasicPluginFactory.h>
-
 #include "ers/ers.h"
+
+#include <cetlib/BasicPluginFactory.h>
 
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <memory>
+#include <string>
 
 using namespace dunedaq::cmdlib;
 using namespace std::chrono_literals;
 
 class dummyCommandFacility : public CommandFacility
 {
-protected:
-  typedef CommandFacility inherited;
-
-  void completionCallback(const std::string& result) {
-    ERS_INFO("Dummy handler just prints out result of cmd: " << result);
-  }
-
 public:
   explicit dummyCommandFacility(std::string uri) : CommandFacility(uri) {
   
@@ -43,6 +38,13 @@ public:
       }
     }
     ERS_INFO("Finished.");
+  }
+
+protected:
+  typedef CommandFacility inherited;
+
+  void completionCallback(const std::string& result) {
+    ERS_INFO("Dummy handler just prints out result of cmd: " << result);
   }
 
 };
