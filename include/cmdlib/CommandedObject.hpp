@@ -6,7 +6,7 @@
 
 #include <string>
 
-namespace dune::daq::ccm {
+namespace dunedaq::cmdlib {
 
 typedef std::string Command;
 

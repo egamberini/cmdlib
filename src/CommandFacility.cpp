@@ -2,8 +2,7 @@
  * @file CommandFacility.cpp CommandFacility implementation
  */
 #include "cmdlib/CommandFacility.hpp"
-
-#include "ers/ers.h"
+#include "cmdlib/Issues.hpp"
 
 #include <future>
 #include <functional>
@@ -11,7 +10,7 @@
 #include <atomic>
 #include <chrono>
 
-using namespace dune::daq::ccm;
+using namespace dunedaq::cmdlib;
 using namespace std::literals::chrono_literals;
 
 void 
@@ -23,7 +22,7 @@ CommandFacility::addCommanded(CommandedObject& commanded)
     active_.store(true);
     executor_ = std::thread(&CommandFacility::executor, this);
   } else {
-    throw std::runtime_error("addCommandedObject should be called once.");
+    ers::error(CommandFacilityError(ERS_HERE, "addCommandObject should be called once."));
   }
 }
 
@@ -43,7 +42,8 @@ CommandFacility::handleCommand(const std::string& command)
     ret = "OK";
   }
   catch (const std::runtime_error& re) {
-    ret = re.what(); 
+    ret = re.what();
+    ers::error(CommandedObjectExecutionError(ERS_HERE, ret)); 
   }
   completionCallback(ret);
 }
@@ -58,7 +58,8 @@ CommandFacility::executor()
     } else {
       bool success = completion_queue_.try_pop(fut);
       if (!success) {
-        ERS_INFO("THIS IS BAD, need to understand");
+        ers::error(CommandFacilityError(ERS_HERE, "THIS IS BAD, need to understand"));
+        
       } else {
         fut.wait(); // trigger execution
       }  

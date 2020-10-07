@@ -7,7 +7,7 @@
 #include <iostream>
 #include <stdexcept>
 
-using namespace dune::daq::ccm;
+using namespace dunedaq::cmdlib;
 using namespace std::literals::chrono_literals;
 
 class DummyCommandedObject : public CommandedObject

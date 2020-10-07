@@ -7,7 +7,7 @@
 #include <thread>
 #include <chrono>
 
-using namespace dune::daq::ccm;
+using namespace dunedaq::cmdlib;
 using namespace std::chrono_literals;
 
 class stdinCommandFacility : public CommandFacility
@@ -47,7 +47,7 @@ public:
 };
 
 extern "C" {
-    std::shared_ptr<dune::daq::ccm::CommandFacility> make(std::string uri) {
-        return std::shared_ptr<dune::daq::ccm::CommandFacility>(new stdinCommandFacility(uri));
+    std::shared_ptr<dunedaq::cmdlib::CommandFacility> make(std::string uri) {
+        return std::shared_ptr<dunedaq::cmdlib::CommandFacility>(new stdinCommandFacility(uri));
     }
 }

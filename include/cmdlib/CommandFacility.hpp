@@ -28,13 +28,13 @@
  */
 #define DEFINE_DUNE_COMMAND_FACILITY(klass)                                                                           \
   EXTERN_C_FUNC_DECLARE_START                                                                                         \
-  std::unique_ptr<dune::daq::ccm::CommandFacility> make()                                                             \
+  std::unique_ptr<dunedaq::cmdlib::CommandFacility> make()                                                             \
   {                                                                                                                   \
-    return std::unique_ptr<dune::daq::ccm::CommandFacility>(new klass());                                             \
+    return std::unique_ptr<dunedaq::cmdlib::CommandFacility>(new klass());                                             \
   }                                                                                                                   \
   }
 
-namespace dune::daq::ccm {
+namespace dunedaq::cmdlib {
 
 /**
  * @brief Interface needed by DAQ apps and services for command handling
