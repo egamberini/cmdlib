@@ -1,5 +1,12 @@
-#ifndef CMDLIB_INCLUDE_ISSUES_HPP_
-#define CMDLIB_INCLUDE_ISSUES_HPP_
+/**
+ * @file Issues.hpp cmdlib specific ERS Issues
+ *
+ * This is part of the DUNE DAQ Application Framework, copyright 2020.
+ * Licensing/copyright details are in the COPYING file that you should have
+ * received with this code.
+ */
+#ifndef CMDLIB_INCLUDE_CMDLIB_ISSUES_HPP_ 
+#define CMDLIB_INCLUDE_CMDLIB_ISSUES_HPP_ 
 
 #include "ers/ers.h"
 #include <string>
@@ -11,13 +18,13 @@ namespace dunedaq {
  * */
 
     ERS_DECLARE_ISSUE(cmdlib, CommandFacilityError,
-                      "CommandFacilityError: " << cmdfacerr,
-                      ((std::string)cmdfacerr))
+                      "CommandFacilityError: " << error,
+                      ((std::string)error))
 
     ERS_DECLARE_ISSUE(cmdlib, CommandedObjectExecutionError,
-                      "CommandedObject execution error: " << execerr,
-                      ((std::string)execerr)) 
+                      "CommandedObject execution error: " << error,
+                      ((std::string)error)) 
 
-}
+} // namespace dunedaq  
 
-#endif
+#endif // CMDLIB_INCLUDE_CMDLIB_ISSUES_HPP_ 

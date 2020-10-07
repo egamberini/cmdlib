@@ -1,8 +1,12 @@
 /**
- * @file CommandFacility.hpp CommandFacility interface
+ * @file CommandFacility.hpp CommandFacility base definitions
+ *
+ * This is part of the DUNE DAQ Application Framework, copyright 2020.
+ * Licensing/copyright details are in the COPYING file that you should have
+ * received with this code.
  */
-#ifndef CMDLIB_INCLUDE_COMMANDFACILITY_HPP_
-#define CMDLIB_INCLUDE_COMMANDFACILITY_HPP_
+#ifndef CMDLIB_INCLUDE_CMDLIB_COMMANDFACILITY_HPP_
+#define CMDLIB_INCLUDE_CMDLIB_COMMANDFACILITY_HPP_
 
 #include "CommandedObject.hpp"
 
@@ -13,8 +17,9 @@
 
 #include <future>
 #include <functional>
-#include <string>
 #include <atomic>
+#include <memory>
+#include <string>
 
 #ifndef EXTERN_C_FUNC_DECLARE_START
 #define EXTERN_C_FUNC_DECLARE_START                                                                                   \
@@ -42,7 +47,7 @@ namespace dunedaq::cmdlib {
 class CommandFacility
 {
 public:
-  CommandFacility(std::string /*uri*/) {}
+  explicit CommandFacility(std::string /*uri*/) {}
   ~CommandFacility() { active_.store(false); }
   CommandFacility(const CommandFacility&) = 
     delete; ///< CommandFacility is not copy-constructible
@@ -96,8 +101,7 @@ makeCommandFacility(std::string const& uri)
     std::string scheme;
     if (sep == std::string::npos) { // simple path
         scheme = "file";
-    }
-    else {                  // with scheme
+    } else { // with scheme
         scheme = uri.substr(0, sep);
     }
     std::string plugin_name = scheme + "CommandFacility";
@@ -105,6 +109,6 @@ makeCommandFacility(std::string const& uri)
     return bpf.makePlugin<std::shared_ptr<CommandFacility>>(plugin_name, uri);
 }
 
-}
+} // namespace dunedaq::cmdlib
 
-#endif // CMDLIB_INCLUDE_COMMANDFACILITY_HPP_
+#endif // CMDLIB_INCLUDE_CMDLIB_COMMANDFACILITY_HPP_

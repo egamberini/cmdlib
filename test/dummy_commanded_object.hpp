@@ -1,3 +1,11 @@
+/**
+ * @file dummy_commanded_object_.hpp Dummy commanded object
+ * implementation of the CommandedObject interface
+ *
+ * This is part of the DUNE DAQ Application Framework, copyright 2020.
+ * Licensing/copyright details are in the COPYING file that you should have
+ * received with this code.
+ */
 #ifndef CMDLIB_TEST_DUMMY_COMMANDED_OBJECT_HPP_
 #define CMDLIB_TEST_DUMMY_COMMANDED_OBJECT_HPP_
 

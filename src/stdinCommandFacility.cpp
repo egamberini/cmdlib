@@ -1,25 +1,27 @@
+/**
+ * @file stdinCommandFacility.cpp CommandFacility implementation
+ * that reads commands from std::cin
+ *
+ * This is part of the DUNE DAQ Application Framework, copyright 2020.
+ * Licensing/copyright details are in the COPYING file that you should have
+ * received with this code.
+ */
 #include "cmdlib/CommandFacility.hpp"
-#include <cetlib/BasicPluginFactory.h>
 
 #include "ers/ers.h"
+#include <cetlib/BasicPluginFactory.h>
 
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <memory>
+#include <string>
 
 using namespace dunedaq::cmdlib;
 using namespace std::chrono_literals;
 
 class stdinCommandFacility : public CommandFacility
 {
-protected:
-  typedef CommandFacility inherited;
-
-  // Implementation of completionHandler interface
-  void completionCallback(const std::string& result) {
-    ERS_INFO("Command execution resulted with: " << result);
-  }
-
 public:
   explicit stdinCommandFacility(std::string uri) : CommandFacility(uri) { 
     // Allocate resources as needed
@@ -42,6 +44,14 @@ public:
       inherited::executeCommand(cmd);
     }
     ERS_INFO("Command handling stopped.");
+  }
+
+protected:
+  typedef CommandFacility inherited;
+
+  // Implementation of completionHandler interface
+  void completionCallback(const std::string& result) {
+    ERS_INFO("Command execution resulted with: " << result);
   }
 
 };

@@ -1,14 +1,19 @@
 /**
- * @file CommandFacility.cpp CommandFacility implementation
+ * @file CommandFacility.cpp CommandFacility base implementation
+ *
+ * This is part of the DUNE DAQ Application Framework, copyright 2020.
+ * Licensing/copyright details are in the COPYING file that you should have
+ * received with this code.
  */
 #include "cmdlib/CommandFacility.hpp"
 #include "cmdlib/Issues.hpp"
 
 #include <future>
 #include <functional>
-#include <string>
+#include <utility>
 #include <atomic>
 #include <chrono>
+#include <string>
 
 using namespace dunedaq::cmdlib;
 using namespace std::literals::chrono_literals;
