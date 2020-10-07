@@ -53,9 +53,11 @@ public:
   CommandFacility& operator=(CommandFacility&&) =
     delete; ///< CommandFacility is not move-assignable
 
+  // Meant to be called once from main
   void addCommanded(CommandedObject& commanded);
+  // Meant to be called once from main (implementation specific)
   virtual void run(std::atomic<bool>& end_marker) = 0;
-  //virtual void teardown() = 0;
+
 
 protected:
   // Must be implemented to handling the results of the commands
@@ -63,6 +65,7 @@ protected:
 
   // Feed commands from the implementation.
   void launchCommand(const std::string& command);
+
 
 private:
   // Commaned Object to run execute with received commands as parameters
