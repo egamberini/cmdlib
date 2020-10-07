@@ -15,7 +15,7 @@ class dummyCommandFacility : public CommandFacility
 protected:
   typedef CommandFacility inherited;
 
-  void completionHandler(const std::string& result) {
+  void completionCallback(const std::string& result) {
     ERS_INFO("Dummy handler just prints out result of cmd: " << result);
   }
 
@@ -36,8 +36,8 @@ public:
     while (end_marker) {
       if (once) {
         for (unsigned int i = 0; i<10; ++i) {
-          inherited::launchCommand(std::to_string(i));
-          inherited::launchCommand(badcmd);
+          inherited::executeCommand(std::to_string(i));
+          inherited::executeCommand(badcmd);
         }
         once = false;
       }

@@ -61,10 +61,10 @@ public:
 
 protected:
   // Must be implemented to handling the results of the commands
-  virtual void completionHandler(const std::string& result) = 0; 
+  virtual void completionCallback(const std::string& result) = 0; 
 
   // Feed commands from the implementation.
-  void launchCommand(const std::string& command);
+  void executeCommand(const std::string& command);
 
 
 private:

@@ -28,10 +28,10 @@ CommandFacility::addCommanded(CommandedObject& commanded)
 }
 
 void 
-CommandFacility::launchCommand(const std::string& command)
+CommandFacility::executeCommand(const std::string& command)
 {
-  auto launchfut = std::async(std::launch::deferred, command_callback_, std::move(command));
-  completion_queue_.push(std::move(launchfut));
+  auto execfut = std::async(std::launch::deferred, command_callback_, std::move(command));
+  completion_queue_.push(std::move(execfut));
 }
 
 void
@@ -45,7 +45,7 @@ CommandFacility::handleCommand(const std::string& command)
   catch (const std::runtime_error& re) {
     ret = re.what(); 
   }
-  completionHandler(ret);
+  completionCallback(ret);
 }
 
 void

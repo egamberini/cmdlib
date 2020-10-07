@@ -16,7 +16,7 @@ protected:
   typedef CommandFacility inherited;
 
   // Implementation of completionHandler interface
-  void completionHandler(const std::string& result) {
+  void completionCallback(const std::string& result) {
     ERS_INFO("Command execution resulted with: " << result);
   }
 
@@ -39,7 +39,7 @@ public:
       std::cin >> cmd;
 
       // exercice base launch (deferred)
-      inherited::launchCommand(cmd);
+      inherited::executeCommand(cmd);
     }
     ERS_INFO("Command handling stopped.");
   }
