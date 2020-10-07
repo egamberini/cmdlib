@@ -4,7 +4,11 @@
 #ifndef CMDLIB_INCLUDE_COMMANDEDOBJECT_HPP_
 #define CMDLIB_INCLUDE_COMMANDEDOBJECT_HPP_
 
+#include <string>
+
 namespace dune::daq::ccm {
+
+typedef std::string Command;
 
 /**
  * @brief Interface needed by commanded objects in the DAQ
@@ -12,8 +16,7 @@ namespace dune::daq::ccm {
 class CommandedObject
 {
 public:
-protected:
-private:
+  virtual void execute(Command) = 0; 
 };
 
 }
