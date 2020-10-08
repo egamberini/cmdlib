@@ -5,7 +5,6 @@ include(CMakeFindDependencyMacro)
 
 find_dependency(cetlib)
 find_dependency(ers)
-find_dependency(Pistache)
 
 if (EXISTS ${CMAKE_SOURCE_DIR}/@PROJECT_NAME@)
 
