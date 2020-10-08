@@ -17,7 +17,7 @@ daq_point_build_to( src )
 add_library(cmdlib src/CommandFacility.cpp)
 target_link_libraries(cmdlib ${CMDLIB_DEPENDENCIES})
 
-add_library(cmdlib_stdinCommandFacility_duneCommandFacility src/stdinCommandFacility.cpp)
+add_library(cmdlib_stdinCommandFacility_duneCommandFacility src/StdinCommandFacility.cpp)
 target_link_libraries(cmdlib_stdinCommandFacility_duneCommandFacility cmdlib)
 
 ##############################################################################
