@@ -1,4 +1,4 @@
-# cmdlib Interfaces for commanded objects
+# cmdlib - Interfaces for commanded objects
 
 ### Building and running examples:
 
