@@ -16,6 +16,7 @@ daq_point_build_to( src )
 
 add_library(cmdlib src/CommandFacility.cpp)
 target_link_libraries(cmdlib ${CMDLIB_DEPENDENCIES})
+target_include_directories(cmdlib PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}> )
 
 add_library(cmdlib_stdinCommandFacility_duneCommandFacility src/StdinCommandFacility.cpp)
 target_link_libraries(cmdlib_stdinCommandFacility_duneCommandFacility cmdlib)
@@ -35,4 +36,10 @@ target_link_libraries(cmdlib_test_stdin_app cmdlib)
 ##############################################################################
 daq_point_build_to( unittest )
 
-daq_install(TARGETS cmdlib_test_dummy_app cmdlib_test_stdin_app)
+daq_install(TARGETS 
+  cmdlib 
+  cmdlib_stdinCommandFacility_duneCommandFacility
+  cmdlib_dummyCommandFacility_duneCommandFacility
+  cmdlib_test_dummy_app 
+  cmdlib_test_stdin_app
+)
