@@ -7,8 +7,9 @@
  * received with this code.
  */
 #include "cmdlib/CommandFacility.hpp"
-#include "ers/ers.h"
 
+#include "ers/ers.h"
+#include <nlohmann/json.hpp>
 #include <cetlib/BasicPluginFactory.h>
 
 #include <iostream>
@@ -28,14 +29,15 @@ public:
 
   void run(std::atomic<bool>& end_marker) {
     ERS_INFO("Going for a run...");
-    std::string slowcmd("asd");
+    auto democmd = nlohmann::json::parse("{\"happy\": true, \"pi\": 3.141 }");
+    auto slowcmd = nlohmann::json::parse("{\"asd\": true}");
 
     bool once = true;
     while (end_marker) {
       if (once) {
         // execute 10 quick commands
         for (auto i=0; i<1000; ++i) {
-          inherited::executeCommand(std::to_string(i));
+          inherited::executeCommand(democmd);
         }
 
         // execute 1 slow command
@@ -43,7 +45,7 @@ public:
 
         // execute again 10 quick command   
         for (auto i=0; i<1000; ++i) {
-          inherited::executeCommand(std::to_string(i));
+          inherited::executeCommand(democmd);
         }
         once = false;
       }
