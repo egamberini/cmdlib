@@ -27,10 +27,6 @@ public:
     // Allocate resources as needed
   }
 
-  virtual ~stdinCommandFacility() { 
-    // Cleanup resources
-  }
-
   // Implementation of the runner
   void run(std::atomic<bool>& end_marker) {
     ERS_INFO("Entered commands will be launched on CommandedObject...");

@@ -26,9 +26,6 @@ public:
   explicit dummyCommandFacility(std::string uri) : CommandFacility(uri) { 
   }
 
-  virtual ~dummyCommandFacility() { 
-  }
-
   void run(std::atomic<bool>& end_marker) {
     ERS_INFO("Going for a run...");
     std::string slowcmd("asd");
