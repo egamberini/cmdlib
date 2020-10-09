@@ -68,7 +68,7 @@ CommandFacility::executor()
   std::future<void> fut; 
   while (active_.load()) {
     if (completion_queue_.empty()) {
-      std::this_thread::sleep_for(std::chrono::seconds(1));
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
     } else {
       bool success = completion_queue_.try_pop(fut);
       if (!success) {
