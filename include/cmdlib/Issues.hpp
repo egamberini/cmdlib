@@ -17,13 +17,18 @@ namespace dunedaq {
  * @brief cmdlib specific issues
  * */
 
-    ERS_DECLARE_ISSUE(cmdlib, CommandFacilityError,
-                      "CommandFacilityError: " << error,
-                      ((std::string)error))
+    ERS_DECLARE_ISSUE(cmdlib, MalformedUriError,
+                      "Malformed uri: " << error << " uri:" << uri,
+                      ((std::string)error)
+                      ((std::string)uri))
 
     ERS_DECLARE_ISSUE(cmdlib, CommandedObjectExecutionError,
                       "CommandedObject execution error: " << error,
                       ((std::string)error)) 
+
+    ERS_DECLARE_ISSUE(cmdlib, CommandFacilityError,
+                      "CommandFacilityError: " << error,
+                      ((std::string)error))
 
 } // namespace dunedaq  
 
