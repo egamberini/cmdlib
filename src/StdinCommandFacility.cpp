@@ -9,11 +9,10 @@
 #include "cmdlib/CommandFacility.hpp"
 #include "cmdlib/Issues.hpp"
 
-#include "ers/ers.h"
+#include <ers/ers.h>
 #include <nlohmann/json.hpp>
 #include <cetlib/BasicPluginFactory.h>
 
-#include <iostream>
 #include <thread>
 #include <chrono>
 #include <memory>

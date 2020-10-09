@@ -9,7 +9,7 @@
 #include "dummy_commanded_object.hpp"
 #include "cmdlib/CommandFacility.hpp"
 
-#include "ers/ers.h"
+#include <ers/ers.h>
 
 #include <string>
 #include <chrono>
