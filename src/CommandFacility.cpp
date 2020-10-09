@@ -16,7 +16,16 @@
 #include <string>
 
 using namespace dunedaq::cmdlib;
-using namespace std::literals::chrono_literals;
+
+CommandFacility::~CommandFacility() 
+{
+  if (active_.load()) {
+    active_.store(false);
+    if(executor_.joinable()) {
+      executor_.join();
+    } 
+  }
+}
 
 void 
 CommandFacility::addCommanded(CommandedObject& commanded) 
@@ -59,7 +68,7 @@ CommandFacility::executor()
   std::future<void> fut; 
   while (active_.load()) {
     if (completion_queue_.empty()) {
-      std::this_thread::sleep_for(1s);
+      std::this_thread::sleep_for(std::chrono::seconds(1));
     } else {
       bool success = completion_queue_.try_pop(fut);
       if (!success) {

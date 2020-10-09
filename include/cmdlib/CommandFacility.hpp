@@ -47,8 +47,8 @@ namespace dunedaq::cmdlib {
 class CommandFacility
 {
 public:
-  explicit CommandFacility(std::string /*uri*/) {}
-  ~CommandFacility() { active_.store(false); }
+  explicit CommandFacility(std::string /*uri*/) { executor_ = std::thread(); }
+  ~CommandFacility();
   CommandFacility(const CommandFacility&) = 
     delete; ///< CommandFacility is not copy-constructible
   CommandFacility& operator=(const CommandFacility&) =
@@ -60,17 +60,16 @@ public:
 
   //! Meant to be called once from main
   void addCommanded(CommandedObject& commanded);
+
   //! Meant to be called once from main (implementation specific)
   virtual void run(std::atomic<bool>& end_marker) = 0;
-
-
-protected:
-  //! Must be implemented to handling the results of the commands
-  virtual void completionCallback(const std::string& result) = 0; 
 
   //! Feed commands from the implementation.
   void executeCommand(const std::string& command);
 
+protected:
+  //! Must be implemented to handling the results of the commands
+  virtual void completionCallback(const std::string& result) = 0; 
 
 private:
   //! Commaned Object to run execute with received commands as parameters
