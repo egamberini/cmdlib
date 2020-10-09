@@ -41,14 +41,14 @@ CommandFacility::addCommanded(CommandedObject& commanded)
 }
 
 void 
-CommandFacility::executeCommand(const std::string& command)
+CommandFacility::executeCommand(const cmdobj_t& command)
 {
   auto execfut = std::async(std::launch::deferred, command_callback_, std::move(command));
   completion_queue_.push(std::move(execfut));
 }
 
 void
-CommandFacility::handleCommand(const std::string& command) 
+CommandFacility::handleCommand(const cmdobj_t& command) 
 {
   std::string ret = "";
   try {

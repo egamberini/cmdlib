@@ -22,6 +22,10 @@ namespace dunedaq {
                       ((std::string)error)
                       ((std::string)uri))
 
+    ERS_DECLARE_ISSUE(cmdlib, CommandParserError,
+                      "Failed to parse command: " << error,
+                      ((std::string)error))
+
     ERS_DECLARE_ISSUE(cmdlib, CommandedObjectExecutionError,
                       "CommandedObject execution error: " << error,
                       ((std::string)error)) 

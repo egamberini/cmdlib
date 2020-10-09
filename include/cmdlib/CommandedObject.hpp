@@ -8,11 +8,11 @@
 #ifndef CMDLIB_INCLUDE_CMDLIB_COMMANDEDOBJECT_HPP_
 #define CMDLIB_INCLUDE_CMDLIB_COMMANDEDOBJECT_HPP_
 
-#include <string>
+#include <nlohmann/json.hpp>
 
 namespace dunedaq::cmdlib {
 
-typedef std::string Command;
+typedef nlohmann::json cmdobj_t;
 
 /**
  * @brief Interface needed by commanded objects in the DAQ
@@ -21,7 +21,7 @@ class CommandedObject
 {
 public:
   //! Pure virtual execute member
-  virtual void execute(Command) = 0; 
+  virtual void execute(const cmdobj_t& command) = 0; 
 };
 
 } // namespace dunedaq::cmdlib
