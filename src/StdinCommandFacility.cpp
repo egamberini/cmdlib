@@ -7,8 +7,10 @@
  * received with this code.
  */
 #include "cmdlib/CommandFacility.hpp"
+#include "cmdlib/Issues.hpp"
 
 #include "ers/ers.h"
+#include <nlohmann/json.hpp>
 #include <cetlib/BasicPluginFactory.h>
 
 #include <iostream>
@@ -36,8 +38,16 @@ public:
       // feed commands from cin
       std::cin >> cmd;
 
-      // exercice base launch (deferred)
-      inherited::executeCommand(cmd);
+      try {
+        // Try to parse
+        auto jstr = nlohmann::json::parse(cmd);
+        // exercice base launch (deferred)
+        inherited::executeCommand(jstr);
+      }
+      catch (const nlohmann::json::parse_error& err) {
+        ers::error(dunedaq::cmdlib::CommandParserError(ERS_HERE, err.what()));
+      }
+
     }
     ERS_INFO("Command handling stopped.");
   }
