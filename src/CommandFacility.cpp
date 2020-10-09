@@ -28,7 +28,7 @@ CommandFacility::~CommandFacility()
 }
 
 void 
-CommandFacility::addCommanded(CommandedObject& commanded) 
+CommandFacility::setCommanded(CommandedObject& commanded) 
 {
   if (commanded_object_ == nullptr) {
     commanded_object_ = &commanded;
@@ -36,7 +36,7 @@ CommandFacility::addCommanded(CommandedObject& commanded)
     active_.store(true);
     executor_ = std::thread(&CommandFacility::executor, this);
   } else {
-    ers::error(CommandFacilityError(ERS_HERE, "addCommandObject should be called once."));
+    ers::error(CommandFacilityError(ERS_HERE, "setCommandObject should be called once."));
   }
 }
 

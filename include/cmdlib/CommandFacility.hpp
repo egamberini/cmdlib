@@ -59,7 +59,7 @@ public:
     delete; ///< CommandFacility is not move-assignable
 
   //! Meant to be called once from main
-  void addCommanded(CommandedObject& commanded);
+  void setCommanded(CommandedObject& commanded);
 
   //! Meant to be called once from main (implementation specific)
   virtual void run(std::atomic<bool>& end_marker) = 0;
