@@ -36,7 +36,7 @@ CommandFacility::setCommanded(CommandedObject& commanded)
     active_.store(true);
     executor_ = std::thread(&CommandFacility::executor, this);
   } else {
-    ers::error(CommandFacilityError(ERS_HERE, "setCommandObject should be called once."));
+    ers::error(CommandFacilityError(ERS_HERE, "setCommanded should be called once."));
   }
 }
 
