@@ -22,6 +22,9 @@ target_include_directories(cmdlib PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURC
 add_library(cmdlib_stdinCommandFacility_duneCommandFacility src/StdinCommandFacility.cpp)
 target_link_libraries(cmdlib_stdinCommandFacility_duneCommandFacility cmdlib)
 
+add_library(cmdlib_fileCommandFacility_duneCommandFacility src/FileCommandFacility.cpp)
+target_link_libraries(cmdlib_fileCommandFacility_duneCommandFacility cmdlib)
+
 ##############################################################################
 daq_point_build_to( test )
 
