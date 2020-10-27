@@ -19,13 +19,13 @@ daq_add_library(CommandFacility.cpp LINK_LIBRARIES ${CMDLIB_DEPENDENCIES})
 ##############################################################################
 # Plugins
 
-daq_add_plugin(StdinCommandFacility duneCommandFacility LINK_LIBRARIES cmdlib)
-daq_add_plugin(FileCommandFacility  duneCommandFacility LINK_LIBRARIES cmdlib)
+daq_add_plugin(stdinCommandFacility duneCommandFacility LINK_LIBRARIES cmdlib)
+daq_add_plugin(fileCommandFacility  duneCommandFacility LINK_LIBRARIES cmdlib)
 
 ##############################################################################
 # Integration tests
 
-daq_add_plugin(dummy_command_facility duneCommandFacility TEST LINK_LIBRARIES cmdlib)
+daq_add_plugin(dummyCommandFacility duneCommandFacility TEST LINK_LIBRARIES cmdlib)
 
 daq_add_application(cmdlib_test_dummy_app test_dummy_app.cxx TEST LINK_LIBRARIES cmdlib)
 daq_add_application(cmdlib_test_stdin_app test_stdin_app.cxx TEST LINK_LIBRARIES cmdlib)
