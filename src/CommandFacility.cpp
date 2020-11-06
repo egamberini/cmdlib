@@ -54,10 +54,15 @@ CommandFacility::handleCommand(const cmdobj_t& command)
   try {
     commanded_object_->execute(command);
     ret = "OK";
-  }
-  catch (const std::runtime_error& re) {
-    ret = re.what();
-    ers::error(CommandedObjectExecutionError(ERS_HERE, ret)); 
+  } catch (const ers::Issue& ei ) {
+    ret = ei.what();
+    ers::error(CommandedObjectExecutionError(ERS_HERE, "Caught ers::Issue", ei));
+  } catch (const std::exception& exc) {
+    ret = exc.what();
+    ers::error(CommandedObjectExecutionError(ERS_HERE, "Caught std::exception", exc));
+  } catch (...) {
+    ret = "Caught unknown exception";
+    ers::error(CommandedObjectExecutionError(ERS_HERE, ret));
   }
   completionCallback(ret);
 }
