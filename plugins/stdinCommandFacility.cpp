@@ -61,6 +61,9 @@ public:
       ERS_INFO(available_str_);
       // feed commands from cin
       std::cin >> cmdid;
+      if (std::cin.eof()) {
+        break;
+      }
       if ( available_commands_.find(cmdid) == available_commands_.end() ) {
         ERS_INFO("Command " << cmdid << " is not available...");
       } else {
