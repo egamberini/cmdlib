@@ -100,7 +100,7 @@ makeCommandFacility(std::string const& uri)
   auto sep = uri.find("://");
   std::string scheme;
   if (sep == std::string::npos) { // simple path
-      scheme = "file";
+      scheme = "stdin";
   } else { // with scheme
       scheme = uri.substr(0, sep);
   }
@@ -111,6 +111,10 @@ makeCommandFacility(std::string const& uri)
     cf_ptr = bpf.makePlugin<std::shared_ptr<CommandFacility>>(plugin_name, uri);
   } catch (const cet::exception &cexpt) {
     throw CommandFacilityCreationFailed(ERS_HERE, uri, cexpt);
+  } catch (const ers::Issue &iexpt) {
+    throw CommandFacilityCreationFailed(ERS_HERE, uri, iexpt);
+  } catch (...) {
+    throw CommandFacilityCreationFailed(ERS_HERE, uri, "Unknown error.");
   }
   return cf_ptr;
 }

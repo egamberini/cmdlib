@@ -30,11 +30,12 @@ public:
     // Allocate resources as needed
     auto col = uri.find_last_of(':');
     auto sep = uri.find("://");
-    if (col == std::string::npos || sep == std::string::npos) { // enforce URI
-      throw dunedaq::cmdlib::MalformedUriError(ERS_HERE, "Malformed URI: ", uri);
+    std::string fname;
+    if (col == std::string::npos || sep == std::string::npos) { // assume filename
+      fname = uri;
+    } else {
+      fname = uri.substr(sep+3);
     }
-    std::string scheme = uri.substr(0, sep);
-    std::string fname = uri.substr(sep+3);
 
     ERS_INFO("Loading commands from file: " << fname);
     try {
@@ -45,7 +46,7 @@ public:
       }
       raw_commands_ = json::parse(ifs);
     } catch (const std::exception& ex) {
-      ers::error(dunedaq::cmdlib::CommandParserError(ERS_HERE, ex.what()));
+      throw dunedaq::cmdlib::CommandParserError(ERS_HERE, ex.what());
     }
     std::ostringstream avaostr;
     avaostr << "Available commands:";
