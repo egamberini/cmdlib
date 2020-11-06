@@ -38,7 +38,11 @@ public:
 
     ERS_INFO("Loading commands from file: " << fname);
     try {
-      std::ifstream ifs(fname);
+      std::ifstream ifs;
+      ifs.open(fname, std::fstream::in);
+      if (!ifs.is_open()) {
+        throw dunedaq::cmdlib::CommandParserError(ERS_HERE, "Can't open command file!");
+      }
       raw_commands_ = json::parse(ifs);
     } catch (const std::exception& ex) {
       ers::error(dunedaq::cmdlib::CommandParserError(ERS_HERE, ex.what()));
