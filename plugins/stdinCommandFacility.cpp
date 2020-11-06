@@ -17,42 +17,66 @@
 #include <chrono>
 #include <memory>
 #include <string>
+#include <fstream>
 
 using namespace dunedaq::cmdlib;
 using namespace std::chrono_literals;
+using json = nlohmann::json;
 
 class stdinCommandFacility : public CommandFacility
 {
 public:
   explicit stdinCommandFacility(std::string uri) : CommandFacility(uri) { 
     // Allocate resources as needed
+    auto col = uri.find_last_of(':');
+    auto sep = uri.find("://");
+    if (col == std::string::npos || sep == std::string::npos) { // enforce URI
+      throw dunedaq::cmdlib::MalformedUriError(ERS_HERE, "Malformed URI: ", uri);
+    }
+    std::string scheme = uri.substr(0, sep);
+    std::string fname = uri.substr(sep+3);
+
+    ERS_INFO("Loading commands from file: " << fname);
+    try {
+      std::ifstream ifs(fname);
+      raw_commands_ = json::parse(ifs);
+    } catch (const std::exception& ex) {
+      ers::error(dunedaq::cmdlib::CommandParserError(ERS_HERE, ex.what()));
+    }
+    std::ostringstream avaostr;
+    avaostr << "Available commands:";
+    for (auto it = raw_commands_.begin(); it != raw_commands_.end(); ++it) {
+      std::string idstr(it.value()["id"]);
+      available_commands_[idstr] = it.value();
+      avaostr << " | " << idstr;
+    }
+    available_str_ = avaostr.str();
   }
 
   // Implementation of the runner
   void run(std::atomic<bool>& end_marker) {
     ERS_INFO("Entered commands will be launched on CommandedObject...");
-
-    std::string cmd;
+    std::string cmdid;
     while (end_marker) { //until runmarker
+      ERS_INFO(available_str_);
       // feed commands from cin
-      std::cin >> cmd;
-
-      try {
-        // Try to parse
-        auto jstr = nlohmann::json::parse(cmd);
-        // exercice base launch (deferred)
-        inherited::executeCommand(jstr);
+      std::cin >> cmdid;
+      if ( available_commands_.find(cmdid) == available_commands_.end() ) {
+        ERS_INFO("Command " << cmdid << " is not available...");
+      } else {
+        ERS_INFO("Executing " << cmdid << " command...");
+        inherited::executeCommand(available_commands_[cmdid]);
       }
-      catch (const nlohmann::json::parse_error& err) {
-        ers::error(dunedaq::cmdlib::CommandParserError(ERS_HERE, err.what()));
-      }
-
     }
     ERS_INFO("Command handling stopped.");
   }
 
 protected:
   typedef CommandFacility inherited;
+
+  json raw_commands_;
+  std::map<std::string, json> available_commands_;
+  std::string available_str_;
 
   // Implementation of completionHandler interface
   void completionCallback(const std::string& result) {
