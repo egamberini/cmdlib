@@ -38,7 +38,7 @@ main(int /*argc*/, char** /*argv[]*/)
 
   // Setup facility
   DummyCommandedObject obj;
-  auto fac = makeCommandFacility(std::string("stdin://"));
+  auto fac = makeCommandFacility(std::string("stdin://sourcecode/appfwk/schema/fdpc-job.json"));
   fac->setCommanded(obj);
   fac->run(run_marker);
   return 0;
