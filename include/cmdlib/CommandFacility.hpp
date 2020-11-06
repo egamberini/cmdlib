@@ -9,6 +9,7 @@
 #define CMDLIB_INCLUDE_CMDLIB_COMMANDFACILITY_HPP_
 
 #include "CommandedObject.hpp"
+#include "Issues.hpp"
 
 #include <cetlib/BasicPluginFactory.h>
 #include <cetlib/compiler_macros.h>
@@ -96,16 +97,22 @@ private:
 std::shared_ptr<CommandFacility>
 makeCommandFacility(std::string const& uri)
 {
-    auto sep = uri.find("://");
-    std::string scheme;
-    if (sep == std::string::npos) { // simple path
-        scheme = "file";
-    } else { // with scheme
-        scheme = uri.substr(0, sep);
-    }
-    std::string plugin_name = scheme + "CommandFacility";
-    static cet::BasicPluginFactory bpf("duneCommandFacility", "make");
-    return bpf.makePlugin<std::shared_ptr<CommandFacility>>(plugin_name, uri);
+  auto sep = uri.find("://");
+  std::string scheme;
+  if (sep == std::string::npos) { // simple path
+      scheme = "file";
+  } else { // with scheme
+      scheme = uri.substr(0, sep);
+  }
+  std::string plugin_name = scheme + "CommandFacility";
+  static cet::BasicPluginFactory bpf("duneCommandFacility", "make");
+  std::shared_ptr<CommandFacility> cf_ptr;
+  try {
+    cf_ptr = bpf.makePlugin<std::shared_ptr<CommandFacility>>(plugin_name, uri);
+  } catch (const cet::exception &cexpt) {
+    throw CommandFacilityCreationFailed(ERS_HERE, uri, cexpt);
+  }
+  return cf_ptr;
 }
 
 } // namespace dunedaq::cmdlib

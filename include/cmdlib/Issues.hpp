@@ -70,6 +70,10 @@ namespace dunedaq {
                       "CommandFacilityError: " << error,
                       ((std::string)error))
 
+    ERS_DECLARE_ISSUE(cmdlib, CommandFacilityCreationFailed,
+                      "Failed to create CommandFacility uri:" << uri,
+                      ((std::string)uri))
+
 } // namespace dunedaq  
 
 #endif // CMDLIB_INCLUDE_CMDLIB_ISSUES_HPP_ 
