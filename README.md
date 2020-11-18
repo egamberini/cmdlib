@@ -21,4 +21,4 @@ execute these command by typing their IDs on stdin:
 
     daq_application -c stdin://sourcecode/appfwk/schema/fdpc-job.json
 
-![Demo](https://cernbox.cern.ch/index.php/s/377LDAJUfv3GUOv)
+![Demo](https://cernbox.cern.ch/index.php/s/377LDAJUfv3GUOv/download)
