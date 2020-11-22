@@ -44,7 +44,17 @@ Commands are JSON objects. They have a signature of having an `id` string elemen
 ```
 
 ## CommandedObject
-Commanded objects are meant to implement the `CommandedObject` interface from this library. They need to implement a single function, which is `execute`, and it's responsible to process the command objects. One really good example to follow, is the `DAQModuleManager` from the `appfwk`. 
+Commanded objects are meant to implement the `CommandedObject` interface from this library. They need to implement a single function, which is `execute`, and it's responsible to process the command objects. One really good example to follow, is the `DAQModuleManager` from the `appfwk`. The mockup of the implementation is as follows:
+```
+void
+DAQModuleManager::execute( const dataobj_t& cmd_data ) {
+
+    auto cmd = cmd_data.get<cmd::Command>();
+    ERS_INFO("Command id:"<< cmd.id);
+    ...
+    dispatch_for_modules(cmd.id, cmd.data);
+}
+```
 
 ## CommandFacility
 This base class is responsible to provide an abstract 
