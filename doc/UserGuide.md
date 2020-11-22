@@ -57,7 +57,9 @@ DAQModuleManager::execute( const dataobj_t& cmd_data ) {
 ```
 
 ## CommandFacility
-This base class is responsible to provide an abstract 
+This base class is responsible to provide a fixed behavior of command handling, but still requiring to implement a `command_callback` and `completion_callback` function implemented. The command callback helps to decouple the commanded object and the transport layer based implementation from the actual background mechanism, that queues in the commands in a completion queue for asynchronous execution. When a command is executed on the commanded object, the facility implementation's completion callback is called. Such mechanism provides consistency and transparency across every implementation.
+
+With the help of `cetlib` plugin factory library, this makes it transparent to implement different solutions that rely on alternative protocols to transfer commands. For other examples, please have a look at the `stdinCommandFacility` that is shipped with this package, and the HTTP based `restCommandFacility` from the `restcmd` package.
 
 ### Using the stdinCommandFacility
 There is a really simple and basic implementation that comes with the package.
