@@ -1,8 +1,50 @@
 ## Commands
-Commands are JSON objects. They have a signature of having an `id` string element, and a `data` object which is a user defined custom parameter list. For an example, please have a look on the `-job.json` files in appfwk. For better names, these field might be renamed in the future. 
+Commands are JSON objects. They have a signature of having an `id` string element, and a `data` object which is a user defined custom parameter list. For an example, please have a look on the `-job.json` files in appfwk. For better names, these field might be renamed in the future. This is how the init command looks like in order to create a fake data producer and a consumer modules, connected by a queue:
+```
+{
+        "id": "init",
+        "data": {
+            "modules": [
+                {
+                    "data": {
+                        "qinfos": [
+                            {
+                                "dir": "output",
+                                "inst": "hose",
+                                "name": "output"
+                            }
+                        ]
+                    },
+                    "inst": "fdp",
+                    "plugin": "FakeDataProducerDAQModule"
+                },
+                {
+                    "data": {
+                        "qinfos": [
+                            {
+                                "dir": "input",
+                                "inst": "hose",
+                                "name": "input"
+                            }
+                        ]
+                    },
+                    "inst": "fdc",
+                    "plugin": "FakeDataConsumerDAQModule"
+                }
+            ],
+            "queues": [
+                {
+                    "capacity": 10,
+                    "inst": "hose",
+                    "kind": "StdDeQueue"
+                }
+            ]
+        }
+    }
+```
 
 ## CommandedObject
-Commanded objects are meant to implement the `CommandedObject` interface from this library. They need to implement a single function, which is `execute`, and it's responsible to process the command objects.
+Commanded objects are meant to implement the `CommandedObject` interface from this library. They need to implement a single function, which is `execute`, and it's responsible to process the command objects. One really good example to follow, is the `DAQModuleManager` from the `appfwk`. 
 
 ## CommandFacility
 This base class is responsible to provide an abstract 
