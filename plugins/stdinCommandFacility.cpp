@@ -15,6 +15,7 @@
 
 #include <thread>
 #include <chrono>
+#include <map>
 #include <memory>
 #include <string>
 #include <fstream>
@@ -44,18 +45,18 @@ public:
       if (!ifs.is_open()) {
         throw dunedaq::cmdlib::CommandParserError(ERS_HERE, "Can't open command file!");
       }
-      raw_commands_ = json::parse(ifs);
+      m_raw_commands = json::parse(ifs);
     } catch (const std::exception& ex) {
       throw dunedaq::cmdlib::CommandParserError(ERS_HERE, ex.what());
     }
     std::ostringstream avaostr;
     avaostr << "Available commands:";
-    for (auto it = raw_commands_.begin(); it != raw_commands_.end(); ++it) {
+    for (auto it = m_raw_commands.begin(); it != m_raw_commands.end(); ++it) {
       std::string idstr(it.value()["id"]);
-      available_commands_[idstr] = it.value();
+      m_available_commands[idstr] = it.value();
       avaostr << " | " << idstr;
     }
-    available_str_ = avaostr.str();
+    m_available_str = avaostr.str();
   }
 
   // Implementation of the runner
@@ -63,17 +64,17 @@ public:
     ERS_INFO("Entered commands will be launched on CommandedObject...");
     std::string cmdid;
     while (end_marker) { //until runmarker
-      ERS_INFO(available_str_);
+      ERS_INFO(m_available_str);
       // feed commands from cin
       std::cin >> cmdid;
       if (std::cin.eof()) {
         break;
       }
-      if ( available_commands_.find(cmdid) == available_commands_.end() ) {
+      if ( m_available_commands.find(cmdid) == m_available_commands.end() ) {
         ERS_INFO("Command " << cmdid << " is not available...");
       } else {
         ERS_INFO("Executing " << cmdid << " command...");
-        inherited::executeCommand(available_commands_[cmdid]);
+        inherited::execute_command(m_available_commands[cmdid]);
       }
     }
     ERS_INFO("Command handling stopped.");
@@ -82,12 +83,12 @@ public:
 protected:
   typedef CommandFacility inherited;
 
-  json raw_commands_;
-  std::map<std::string, json> available_commands_;
-  std::string available_str_;
+  json m_raw_commands;
+  std::map<std::string, json> m_available_commands;
+  std::string m_available_str;
 
-  // Implementation of completionHandler interface
-  void completionCallback(const std::string& result) {
+  // Implementation of completion_handler interface
+  void completion_callback(const std::string& result) {
     ERS_INFO("Command execution resulted with: " << result);
   }
 

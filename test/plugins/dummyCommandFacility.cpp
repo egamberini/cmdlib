@@ -36,15 +36,15 @@ public:
       if (once) {
         // execute 10 quick commands
         for (auto i=0; i<1000; ++i) {
-          inherited::executeCommand(democmd);
+          inherited::execute_command(democmd);
         }
 
         // execute 1 slow command
-        inherited::executeCommand(slowcmd);
+        inherited::execute_command(slowcmd);
 
         // execute again 10 quick command   
         for (auto i=0; i<1000; ++i) {
-          inherited::executeCommand(democmd);
+          inherited::execute_command(democmd);
         }
         once = false;
       }
@@ -55,7 +55,7 @@ public:
 protected:
   typedef CommandFacility inherited;
 
-  void completionCallback(const std::string& result) {
+  void completion_callback(const std::string& result) {
     ERS_INFO("Dummy handler just prints out result of cmd: " << result);
   }
 

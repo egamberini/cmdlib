@@ -6,8 +6,8 @@
  * Licensing/copyright details are in the COPYING file that you should have
  * received with this code.
  */
-#ifndef CMDLIB_TEST_DUMMY_COMMANDED_OBJECT_HPP_
-#define CMDLIB_TEST_DUMMY_COMMANDED_OBJECT_HPP_
+#ifndef CMDLIB_TEST_APPS_DUMMYCOMMANDEDOBJECT_HPP_
+#define CMDLIB_TEST_APPS_DUMMYCOMMANDEDOBJECT_HPP_
 
 #include "cmdlib/CommandedObject.hpp"
 
@@ -30,4 +30,4 @@ public:
   }
 };
 
-#endif // CMDLIB_TEST_DUMMY_COMMANDED_OBJECT_HPP_
+#endif // CMDLIB_TEST_APPS_DUMMYCOMMANDEDOBJECT_HPP_
