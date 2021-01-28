@@ -41,7 +41,7 @@ CommandFacility::set_commanded(CommandedObject& commanded)
 }
 
 void 
-CommandFacility::execute_command(cmdobj_t& command)
+CommandFacility::execute_command(const cmdobj_t& command)
 {
   auto execfut = std::async(std::launch::deferred, m_command_callback, std::move(command));
   m_completion_queue.push(std::move(execfut));

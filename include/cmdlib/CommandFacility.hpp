@@ -66,7 +66,7 @@ public:
   virtual void run(std::atomic<bool>& end_marker) = 0;
 
   //! Feed commands from the implementation.
-  void execute_command(cmdobj_t& command);
+  void execute_command(const cmdobj_t& command);
 
 protected:
   //! Must be implemented to handling the results of the commands
