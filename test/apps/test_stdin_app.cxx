@@ -6,7 +6,7 @@
  * Licensing/copyright details are in the COPYING file that you should have
  * received with this code.
  */
-#include "dummy_commanded_object.hpp"
+#include "DummyCommandedObject.hpp"
 #include "cmdlib/CommandFacility.hpp"
 
 #include <string>
@@ -21,7 +21,7 @@ volatile int global_signal;
 std::atomic<bool> run_marker{true};
 
 // SIG handler
-static void sigHandler(int signal) {
+static void sig_handler(int signal) {
   ERS_INFO("Signal received: " << signal);
   global_signal = signal;
   run_marker.store(false);
@@ -32,14 +32,14 @@ int
 main(int /*argc*/, char** /*argv[]*/)
 {
   // Setup signals
-  std::signal(SIGKILL, sigHandler);
-  std::signal(SIGABRT, sigHandler);
-  std::signal(SIGQUIT, sigHandler);
+  std::signal(SIGKILL, sig_handler);
+  std::signal(SIGABRT, sig_handler);
+  std::signal(SIGQUIT, sig_handler);
 
   // Setup facility
   DummyCommandedObject obj;
   auto fac = makeCommandFacility(std::string("stdin://sourcecode/appfwk/schema/fdpc-job.json"));
-  fac->setCommanded(obj);
+  fac->set_commanded(obj);
   fac->run(run_marker);
   return 0;
 }
