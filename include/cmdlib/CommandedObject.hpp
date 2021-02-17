@@ -13,7 +13,6 @@
 namespace dunedaq::cmdlib {
 
 typedef nlohmann::json cmdobj_t;
-
 typedef std::map<std::string, std::string> cmdmeta_t;
 
 /**

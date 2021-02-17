@@ -66,7 +66,6 @@ public:
   virtual void run(std::atomic<bool>& end_marker) = 0;
 
   //! Feed commands from the implementation.
-
   void execute_command(cmdmeta_t meta);
 
 protected:
@@ -74,6 +73,9 @@ protected:
   virtual void completion_callback(cmdmeta_t& meta) = 0; 
 
 private:
+
+  //! The glue between commanded and completion callback
+  void handle_command(cmdmeta_t command);
 
   void executor();
 
@@ -87,9 +89,6 @@ private:
   //! Request callback function signature
   typedef std::function<void(cmdmeta_t)> CommandCallback;
   CommandCallback m_command_callback = nullptr;
-
-  //! The glue between commanded and completion callback
-  void handle_command(cmdmeta_t command);
 
   //! Single thrad is responsible to trigger tasks 
   std::atomic<bool> m_active;

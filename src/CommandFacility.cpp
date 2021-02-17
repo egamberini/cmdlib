@@ -59,7 +59,7 @@ CommandFacility::handle_command(cmdmeta_t meta)
   } catch (const std::exception& exc) {
     meta["result"] = exc.what();
     ers::error(CommandedObjectExecutionError(ERS_HERE, "Caught std::exception", exc));
-  } catch (...) {
+  } catch (...) {  // NOLINT JCF Jan-27-2021 violates letter of the law but not the spirit
     meta["result"] = "Caught unknown exception";
     ers::error(CommandedObjectExecutionError(ERS_HERE, meta["result"]));
   }
