@@ -55,8 +55,8 @@ public:
 protected:
   typedef CommandFacility inherited;
 
-  void completion_callback(const std::string& result) {
-    ERS_INFO("Dummy handler just prints out result of cmd: " << result);
+  void completion_callback(cmdmeta_t& meta) {
+    ERS_INFO("Dummy handler just prints out result of cmd: " << meta["result"]);
   }
 
 };

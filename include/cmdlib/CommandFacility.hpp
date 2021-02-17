@@ -67,11 +67,11 @@ public:
 
   //! Feed commands from the implementation.
 
-  void executeCommand(cmdmeta_t meta);
+  void execute_command(cmdmeta_t meta);
 
 protected:
   //! Must be implemented to handling the results of the commands
-  virtual void completionCallback(cmdmeta_t& meta) = 0; 
+  virtual void completion_callback(cmdmeta_t& meta) = 0; 
 
 private:
 

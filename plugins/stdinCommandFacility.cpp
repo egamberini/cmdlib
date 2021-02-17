@@ -88,8 +88,8 @@ protected:
   std::string m_available_str;
 
   // Implementation of completion_handler interface
-  void completion_callback(const std::string& result) {
-    ERS_INFO("Command execution resulted with: " << result);
+  void completion_callback(cmdmeta_t& meta) {
+    ERS_INFO("Command execution resulted with: " << meta["result"]);
   }
 
 };

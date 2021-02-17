@@ -41,7 +41,7 @@ CommandFacility::set_commanded(CommandedObject& commanded)
 }
 
 void 
-CommandFacility::executeCommand(cmdmeta_t meta)
+CommandFacility::execute_command(cmdmeta_t meta)
 {
   auto execfut = std::async(std::launch::deferred, m_command_callback, std::move(meta));
   m_completion_queue.push(std::move(execfut));
@@ -63,7 +63,7 @@ CommandFacility::handle_command(cmdmeta_t meta)
     meta["result"] = "Caught unknown exception";
     ers::error(CommandedObjectExecutionError(ERS_HERE, meta["result"]));
   }
-  completionCallback(meta);
+  completion_callback(meta);
 }
 
 void
