@@ -66,16 +66,14 @@ public:
   virtual void run(std::atomic<bool>& end_marker) = 0;
 
   //! Feed commands from the implementation.
-  void execute_command(const cmdobj_t& command);
+
+  void executeCommand(cmdmeta_t meta);
 
 protected:
   //! Must be implemented to handling the results of the commands
-  virtual void completion_callback(const std::string& result) = 0; 
+  virtual void completionCallback(cmdmeta_t& meta) = 0; 
 
 private:
-
-  //! The glue between commanded and completion callback
-  void handle_command(const cmdobj_t& command);
 
   void executor();
 
@@ -87,8 +85,11 @@ private:
   CompletionQueue m_completion_queue;
 
   //! Request callback function signature
-  typedef std::function<void(const cmdobj_t&)> CommandCallback;
+  typedef std::function<void(cmdmeta_t)> CommandCallback;
   CommandCallback m_command_callback = nullptr;
+
+  //! The glue between commanded and completion callback
+  void handle_command(cmdmeta_t command);
 
   //! Single thrad is responsible to trigger tasks 
   std::atomic<bool> m_active;
