@@ -51,7 +51,7 @@ void
 CommandFacility::handle_command(cmdmeta_t meta)
 {
   try {
-    m_commanded_object->execute(meta["command"]);
+    m_commanded_object->execute(nlohmann::json::parse(meta["command"]));
     meta["result"] = "OK";
   } catch (const ers::Issue& ei ) {
     meta["result"] = ei.what();

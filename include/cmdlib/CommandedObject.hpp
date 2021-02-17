@@ -14,7 +14,7 @@ namespace dunedaq::cmdlib {
 
 typedef nlohmann::json cmdobj_t;
 
-typedef std::map<std::string, nlohmann::json> cmdmeta_t;
+typedef std::map<std::string, std::string> cmdmeta_t;
 
 /**
  * @brief Interface needed by commanded objects in the DAQ
