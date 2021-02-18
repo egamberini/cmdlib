@@ -32,7 +32,7 @@ CommandFacility::set_commanded(CommandedObject& commanded)
 {
   if (m_commanded_object == nullptr) {
     m_commanded_object = &commanded;
-    m_command_callback = std::bind(&CommandFacility::handle_command, this, std::placeholders::_1);
+    m_command_callback = std::bind(&CommandFacility::handle_command, this, std::placeholders::_1, std::placeholders::_2);
     m_active.store(true);
     m_executor = std::thread(&CommandFacility::executor, this);
   } else {
@@ -41,17 +41,17 @@ CommandFacility::set_commanded(CommandedObject& commanded)
 }
 
 void 
-CommandFacility::execute_command(cmdmeta_t meta)
+CommandFacility::execute_command(const cmdobj_t& cmd, cmdmeta_t meta)
 {
-  auto execfut = std::async(std::launch::deferred, m_command_callback, std::move(meta));
+  auto execfut = std::async(std::launch::deferred, m_command_callback, std::move(cmd), std::move(meta));
   m_completion_queue.push(std::move(execfut));
 }
 
 void
-CommandFacility::handle_command(cmdmeta_t meta)
+CommandFacility::handle_command(const cmdobj_t& cmd, cmdmeta_t meta)
 {
   try {
-    m_commanded_object->execute(nlohmann::json::parse(meta["command"]));
+    m_commanded_object->execute(cmd);
     meta["result"] = "OK";
   } catch (const ers::Issue& ei ) {
     meta["result"] = ei.what();
@@ -63,7 +63,7 @@ CommandFacility::handle_command(cmdmeta_t meta)
     meta["result"] = "Caught unknown exception";
     ers::error(CommandedObjectExecutionError(ERS_HERE, meta["result"]));
   }
-  completion_callback(meta);
+  completion_callback(cmd, meta);
 }
 
 void
